@@ -14,4 +14,4 @@ I'm a PhD candidate in Political Science at Duke University.
 
 I study dictators, the strategies and tactics that authoritarian leaders use to consolidate power. I tackle these questions using a mix of qualitative archival work to build theories, and empirical data covering over 300 dictators. 
 
-You can hire me! See my CV. 
+You can hire me! 
