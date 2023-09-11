@@ -12,9 +12,9 @@ My research focuses on authoritarian politics, aiming to understand the conditio
 
 My book project, focuses on the strategies dictators employ to accumulate personal power. I develop a theoretical framework of leaders' strategy space that draws from qualitative cases across the Middle East and Southeast Asia. To support this framework, I model these strategies as states using a Markov chain model to assess how dictators' strategies evolve in response to the strength of elite constraints. 
 
-### Working Papers
+### Working Papers (Available upon request)
 
-1. The costs of collective action: an experimental study of risk, punishment, and immunity [Revise and Resubmit]
+1. The costs of collective action: an experimental study of risk, punishment, and immunity [*Revise and Resubmit at Journal of Politics*]
 2. Youth Wings as a Source of Authoritarian Party
 Strength 
 3. Why Complete Voting Tallies Are Sometimes Not Published
@@ -22,6 +22,10 @@ Strength
 
 
 ### Works in Progress
+
+Does authoritarian consolidation pause in times of conflict?
+
+Trajectories of power-sharing and power-consolidating. 
 
 <!--My other main research agenda is in evaluating authoritarian institutions and their variability over time. I develop indicators such as the existence of youth wings in political parties and the transparency in vote tally publication to gauge the evolving strength or vulnerability of authoritarian regimes. I currently have a co-authored article under revise and resubmit at the \textit{Journal of Politics}, which presents a formal model of collective action with punishment and immunity, and tests it in an laboratory setting.-->
 
