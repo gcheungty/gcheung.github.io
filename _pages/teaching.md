@@ -7,7 +7,20 @@ title: "Teaching"
 
 I have teaching assistant in undergraduate classes on game theory, and computational modelling in social sciences. I've also been the head teaching assistant for the intro to methods and R coding for the Ralphe Bunche Summer Institute (RBSI) - an annual, intensive five-week program held at Duke University for undergraduates from under-represented racial and ethnic groups [(more info on RBSI here)](https://www.apsanet.org/DIVERSITY/Ralph-Bunche-Summer-Institute/How-to-Apply).
 
-A selection of my teaching materials, including all the labs from RBSI are available [here](/r-page/).
+A selection of my teaching materials, including all the labs from RBSI are available below: 
+
+
+### Intro to R, from RStudio to OLS. 
+
+The following is an introductory course to R, based on the probability and regression class taught at the Ralph Bunche Summer Institute in 2021, 2022, and 2023. The course is designed to complement a lecture series on hypothesis generation, empirical measurement, statistical inference, and regressions. The outline is as follows:
+
+1. What is Data and Where to Find it?
+2. [Intro to R and RStudio](lab2.html)
+3. [Data Cleaning and Management](lab3.html)
+4. [Ordinary Least Squares in R](lab4.html)
+5. Interpreting and Graphing Results in R
+
+
 
 
 
