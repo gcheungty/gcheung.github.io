@@ -5,9 +5,9 @@ title: "Teaching"
 ---
 
 
-I have teaching assistant in undergraduate classes on game theory, and computational modelling in social sciences. I've also been the head teaching assistant for the intro to methods and R coding for the Ralphe Bunche Summer Institute (RBSI) - an annual, intensive five-week program held at Duke University for undergraduates from under-represented raciall and ethnic groups [(more info on RBSI here)](https://www.apsanet.org/DIVERSITY/Ralph-Bunche-Summer-Institute/How-to-Apply).
+I have teaching assistant in undergraduate classes on game theory, and computational modelling in social sciences. I've also been the head teaching assistant for the intro to methods and R coding for the Ralphe Bunche Summer Institute (RBSI) - an annual, intensive five-week program held at Duke University for undergraduates from under-represented racial and ethnic groups [(more info on RBSI here)](https://www.apsanet.org/DIVERSITY/Ralph-Bunche-Summer-Institute/How-to-Apply).
 
-A selection of my teaching materials, including all the labs from RBSI are available [here](r-page.md).
+A selection of my teaching materials, including all the labs from RBSI are available [here](/r-page/).
 
 
 

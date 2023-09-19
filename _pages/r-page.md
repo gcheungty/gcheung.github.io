@@ -1,6 +1,6 @@
 ---
 layout: single
-permalink: /teaching/
+permalink: /r-page/
 title: "R Main Page"
 ---
 
