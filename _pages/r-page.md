@@ -10,9 +10,9 @@ title: "R Main Page"
 The following is an introductory course to R, based on the probability and regression class taught at the Ralph Bunche Summer Institute in 2021, 2022, and 2023. The course is designed to complement a lecture series on hypothesis generatoin, empirical measurement, statistical inference, and regressions. The outline is as follows:
 
 1. What is Data and Where to Find it?
-2. Intro to R and RStudio [link](lab2.html)
-3. Data Cleaning and Management
-4. Ordinary Least Squares in R
+2. [Intro to R and RStudio](lab2.html)
+3. [Data Cleaning and Management](lab3.html)
+4. [Ordinary Least Squares in R](lab4.html)
 5. Interpreting and Graphing Results in R
 
 

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Gloria Cheung" />
+
+
+<title>Lab 4: OLS in R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RBSI-Methods 2021</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lab2.html">Lab 2</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="lab4.html">Lab 4</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 4: OLS in R</h1>
+<h4 class="author">Gloria Cheung</h4>
+<h4 class="date">5/18/2021</h4>
+
+</div>
+
+
+<p>This week in methods class, we covered different types of hypothesis tests, depending on the level of measurement for the independent and dependent variables.</p>
+<div class="figure">
+<img src="hypothesis-testing.png" alt="Hypothesis Testing" />
+<p class="caption">Hypothesis Testing</p>
+</div>
+<p>The agenda in this lab is to demonstrate and execute a basic version of the tests discussed in class, we will be covering four tests, three of which directly come from the matrix above (I’ll include probit/logit in a bonus section but will not cover it.)</p>
+<ol style="list-style-type: decimal">
+<li>Chi-squared test - Tabular Analysis</li>
+<li>T-tests - Difference of means test</li>
+<li>Correlation vs Covariance - Understanding the correlation coefficient</li>
+<li>Bivariate Linear Regression / Ordinary Least Squares (OLS) - Correlation regression</li>
+</ol>
+<p><strong>A reminder about hypothesis testing :</strong></p>
+<p><span class="math inline">\(H_0\)</span>: <em>the null hypothesis</em> - any difference observed is just the result of random chance <span class="math inline">\(H_1\)</span>: <em>the research hypothesis</em> - the variables are dependent, there is a relationship between the two variables. Knowing the value of one variable helps to predict the value of the other variable - we want to <em>reject the null hypothesis</em></p>
+<div id="chi-squared-x2-test" class="section level1">
+<h1><span class="header-section-number">1</span> Chi-squared <span class="math inline">\(x^2\)</span> test</h1>
+<p>A chi-square test typically is used to compare two categorical variables. It works by comparing the observed frequencies to the expected frequencies if there was no relationship between the two variables.</p>
+<p>You can do it by hand, and Dr. Siegel goes through this in Lecture 2 Part 1, on slide 54 onwards, when he goes through an example of how to conduct a <span class="math inline">\(x^2\)</span> test by hand. I will show you how to do this in R as well, using the function <code>chisq.test()</code>.</p>
+<p>I’m going to run a hypothetical test to see if there is a difference in the number of 2008 voters, between the republican party and democratic party. The two variables of interest are <code>interest_voted2008</code> (did the respondent vote in the 2008 elections?), and <code>prevote_regpty</code> (what is the official party of registration of the respondent?)</p>
+<div id="setting-up-the-data" class="section level2">
+<h2><span class="header-section-number">1.1</span> Setting up the data</h2>
+<ul>
+<li>We will be using data from the ANES 2012 survey throughout this lab.</li>
+<li>The codebook and data will be on sakai</li>
+</ul>
+<pre class="r"><code>library(sjlabelled)
+library(haven) # for opening .sav files
+anes2012 &lt;- read_sav(&quot;~/Dropbox/Duke/Summer 2021/RBSI Online/Methods Lab/anes_timeseries_2012/anes_timeseries_2012.sav&quot;)</code></pre>
+<ul>
+<li>You always want to start by checking and preparing the data.
+<ul>
+<li>You can check the codebook to find the levels of a data and how it has been coded.</li>
+<li><p>For <strong>prevote_regpty</strong> the possible responses to the question are:</p></li>
+<li>So to keep the analysis as clean as possible, we might just want to restrict our chi-square analysis to those who answered <code>1. Democratic Party</code> or <code>2. Republican Party</code>, since we don’t have any logical reason for recoding independents or those who didn’t answer</li>
+<li><p>Though note that there is a significant number of respondents who don’t qualify under the restrictions (-1 Inapplicable: 2958; 4 None or Independent: 214; 5 Other: 456)</p></li>
+</ul></li>
+</ul>
+<pre class="r"><code>table(anes2012$prevote_regpty)</code></pre>
+<pre><code>## 
+##   -9   -8   -1    1    2    4    5 
+##   15   24 2958 1443  804  214  456</code></pre>
+<pre class="r"><code>anes2012$regpty &lt;- ifelse(anes2012$prevote_regpty == 1, 1,
+                  ifelse(anes2012$prevote_regpty == 2, 2, NA))
+table(anes2012$regpty)</code></pre>
+<pre><code>## 
+##    1    2 
+## 1443  804</code></pre>
+<pre class="r"><code>summary(anes2012$regpty) # Note the 3667 NAs</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   1.000   1.000   1.000   1.358   2.000   2.000    3667</code></pre>
+<ul>
+<li>For **interest_voted2008*,the possible responses to the question are:</li>
+</ul>
+<pre class="r"><code>summary(anes2012$interest_voted2008)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  -9.000   1.000   1.000   1.187   1.000   2.000</code></pre>
+<pre class="r"><code>table(anes2012$interest_voted2008)</code></pre>
+<pre><code>## 
+##   -9   -8    1    2 
+##    4   18 4585 1307</code></pre>
+<p>We only have 22 nonrespondents, so we can do a simple recode for this as well</p>
+<pre class="r"><code>anes2012$interest_voted2008 &lt;- ifelse(anes2012$interest_voted2008 &gt; 0 , anes2012$interest_voted2008, NA )
+table(anes2012$interest_voted2008)</code></pre>
+<pre><code>## 
+##    1    2 
+## 4585 1307</code></pre>
+</div>
+<div id="chi-squared-test-analysis" class="section level2">
+<h2><span class="header-section-number">1.2</span> Chi-squared test + Analysis</h2>
+<p>Now for the chi-squared test:</p>
+<pre class="r"><code>chisq.test(anes2012$interest_voted2008, anes2012$regpty)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  anes2012$interest_voted2008 and anes2012$regpty
+## X-squared = 4.3926, df = 1, p-value = 0.0361</code></pre>
+<ul>
+<li>Here the p-value is 0.0361, which means we can reject the null hypothesis at the 0.05 level, but not at the 0.01 level.
+<ul>
+<li>the levels for hypothesis testing tend to be 0.10, 0.05, 0.01, and 0.001.</li>
+<li>Interpreting this, it means that the number of 2008 voters differs significantly across party registration levels, at the 5 percent significance level.</li>
+</ul></li>
+<li>For more on some interesting ways to present a contingency table and the difference between the observed and expected values, see <a href="https://statsandr.com/blog/chi-square-test-of-independence-in-r/">Antoine Soetewey’s</a> blog for some examples.</li>
+</ul>
+</div>
+</div>
+<div id="t-test-or-differences-in-means-test" class="section level1">
+<h1><span class="header-section-number">2</span> T-test or differences in means test</h1>
+<p>The t-test or difference of means test is is used to determine if the null hypothesis can be rejected and that we can infer that the differences between the two samples are statistically significant. It is similar to the chi-squared test, but is better employed when the <em>dependent variable is continuous and the independent variable categorical</em>.</p>
+<p>Examples:</p>
+<ol style="list-style-type: decimal">
+<li>Do republicans and democrats have different feelings toward the military?</li>
+</ol>
+<ul>
+<li>independent variable: political affiliation (categorical)</li>
+<li>dependent variable: feeling thermometer (continuous)</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Does college-level literacy vary across states in the U.S.?</li>
+</ol>
+<ul>
+<li>independent variable: Geographical region (categorical)</li>
+<li>Dependent variable: percentage of college educated adults</li>
+</ul>
+<p>The difference in means test is referenced in Lecture 2, part 1, on slide 109 onwards. In R we perform the test using the function <code>t.test()</code>. Note that what the difference of means t-test, or a two-tailed t-test, concludes is whether there is a difference in means, rather than whether one mean is specifically less than or greater than the other - the latter type of test would be a one-tailed t-test, which R can also conduct, and is one of the options if you check <code>?t.test</code>.</p>
+<p>We will test the first example hypothesis <strong>Do republicans and democrats have different feelings toward the military?</strong></p>
+<p><strong>Hypothesis</strong>: Is the relationship between party ideology <code>pid_x</code> and support for the military <code>ftgr_military</code> statistically significant?</p>
+<p><strong>Null Hypothesis:</strong>: There is no difference in level of support for the military (proxied by feeling thermometer) between Republicans and Democrats</p>
+<div id="cleaning-data" class="section level2">
+<h2><span class="header-section-number">2.1</span> Cleaning Data</h2>
+<p>As always, check the variables and clean up the data.</p>
+<p>From the codebook, pid_x should range from 1 to 7. And we know that feeling thermometers should range from 0 to 100.</p>
+<p>Hence we need to recode the values of either variable that doesn’t fall within that range. I’ve chosen this time to recode them as new variables <code>ft_military_2</code> and <code>pid_x_2</code>. In pid_x_2, I’ve chosen to turn it into a binary variable, where 1 captures all respondents who identify as democrat-leaning (pid_x &lt;= 3), and where 2 captures all respondents who identify as republican-leaning (pid_x &gt;= 5).</p>
+<pre class="r"><code>summary(anes2012$ftgr_military) # Feeling thermometer should range from 0 to  100</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   -9.00   60.00   85.00   74.07  100.00  100.00</code></pre>
+<pre class="r"><code>summary(anes2012$pid_x) # pid_x should range from 1 to 7.</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  -2.000   1.000   3.000   3.502   5.000   7.000</code></pre>
+<pre class="r"><code>anes2012$ft_military_2 &lt;- ifelse(anes2012$ftgr_military &lt;0, NA, anes2012$ftgr_military)
+anes2012$pid_x &lt;- ifelse(anes2012$pid_x &lt;0, NA, anes2012$pid_x)
+anes2012$pid_x_2 &lt;- ifelse(anes2012$pid_x &lt;= 3, 1, 
+                    ifelse(anes2012$pid_x &gt;= 5, 2, NA))
+table(anes2012$pid_x_2)</code></pre>
+<pre><code>## 
+##    1    2 
+## 3103 1995</code></pre>
+</div>
+<div id="t-test" class="section level2">
+<h2><span class="header-section-number">2.2</span> T-test</h2>
+<pre class="r"><code>t.test(anes2012$pid_x_2, anes2012$ft_military_2)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  anes2012$pid_x_2 and anes2012$ft_military_2
+## t = -278.75, df = 5485.4, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -79.62001 -78.50791
+## sample estimates:
+## mean of x mean of y 
+##   1.39133  80.45529</code></pre>
+<p><strong>Interpreting the results</strong>:</p>
+<p>Here, we see that the p-value is &lt;2.2e-16, which means it is very close to 0. We can reject the null hypothesis at the 0.001 significance level, that there is no difference in respondents’ feelings towards the military, between republican and democrat respondents.</p>
+<p>Does this follow through with our expectations of how people actually feel towards the military in real life?</p>
+</div>
+</div>
+<div id="bivariate-regressions" class="section level1">
+<h1><span class="header-section-number">3</span> Bivariate Regressions</h1>
+<p>The logic of regression is often thought of in terms of some independent variable <span class="math inline">\(x\)</span> can cause changes in some dependent variable <span class="math inline">\(y\)</span>. So we can think of this relationship as resembling:</p>
+<p><span class="math display">\[Y = \alpha + \beta_1 X\]</span></p>
+<p>Where <span class="math inline">\(\beta\)</span> is the coefficient that represents how much a unit change in independent variable <span class="math inline">\(X\)</span> results in a <span class="math inline">\(\beta\)</span> unit change in the dependent variable <span class="math inline">\(Y\)</span>.</p>
+<p>In this section, we will be going over how to perform ordinary least squares (OLS) regessions in R, using the same example of political ideology and its effects on a voter’s feelings towards the military. Here we are interested in how one unit change in political ideology (towards increased ‘democratic-ness’), shifts one’s feelings towards the military.</p>
+<p><strong>The Hypothesis</strong>: Voters who are recorded as more ‘democratic’ on the political ideology scale, are more likely to have negative feelings towards the military</p>
+<div id="setting-up-the-data-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Setting up the data</h2>
+<ul>
+<li><p>We will be using the same data from ANES 2012.</p></li>
+<li>The <strong>dependent variable</strong> is <code>ftgr_military</code> which measures an individual’s feelings towards obama - the ratings are between 0 to 100 degrees, where ratings between 50 and 100 indicate favorable feelings, and 0 to 50 indicates that the participant does not feel favorable towards the military</li>
+<li><p>The <strong>independent variable</strong> is <code>pid_x</code>, a 7 point measure of party ID, where 1 indicates a strong democrat, and 7 indicates a strong republican.</p></li>
+</ul>
+<p>Earlier, we already cleaned up the variables, so we will be using the cleaned variables <code>ft_military_2</code>, and <code>pid_x</code></p>
+<pre class="r"><code>summary(anes2012$ft_military_2)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    0.00   70.00   85.00   80.46  100.00  100.00     434</code></pre>
+<pre class="r"><code>summary(anes2012$pid_x)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##   1.000   1.000   3.000   3.524   5.000   7.000      24</code></pre>
+</div>
+<div id="running-the-ols" class="section level2">
+<h2><span class="header-section-number">3.2</span> Running the OLS</h2>
+<p>To run an ordinary least squares regression, we can use the <code>lm()</code> function to create a linear regression model. If you use <code>?lm</code> you can see more details about how <code>lm()</code> works but here we use a simple setup:</p>
+<ul>
+<li>lm(y ~ x, data)</li>
+<li>where y is the dependent variable, and x is the independent variable</li>
+<li>after defining the model (and saving it as an object), you use the <code>summary()</code> function to analyze the results of the model</li>
+</ul>
+<pre class="r"><code>model1 &lt;- lm(ft_military_2 ~ pid_x, data = anes2012)
+summary(model1) </code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = ft_military_2 ~ pid_x, data = anes2012)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -84.977 -11.089   5.207  17.615  22.800 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  75.9044     0.5478 138.562   &lt;2e-16 ***
+## pid_x         1.2961     0.1333   9.724   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 20.82 on 5457 degrees of freedom
+##   (455 observations deleted due to missingness)
+## Multiple R-squared:  0.01703,    Adjusted R-squared:  0.01685 
+## F-statistic: 94.56 on 1 and 5457 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div id="interpretation" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Interpretation</h3>
+<p>The output for <code>summary()</code> shows the original <code>lm()</code> formula used, the summary statistics for the residuals, the coefficients for the predictor variables used, and performance measures for the model more generally.</p>
+<ul>
+<li>The coefficient is the <span class="math inline">\(\beta\)</span> value for <span class="math inline">\(X\)</span> which we discussed in the beginning, it represents how much a unit change in independent variable <span class="math inline">\(X\)</span> results in a <span class="math inline">\(\beta\)</span> unit change in the dependent variable <span class="math inline">\(Y\)</span>.</li>
+<li>Hence, the summary output for the model predicts an increase of <span class="math inline">\(1.2961\)</span> in <em>ftmilitary_2</em> for every unit increase in <em>pid_x</em> - what does that mean in real terms?
+<ul>
+<li>Remember that every unit increase in pid7 indicates a shift in ideology closer to Strong Republican</li>
+</ul></li>
+<li><strong>Statistical Significance</strong>: We also discussed statistical significance in class, the model output gives us both the t value, but also automatically conducts a two-tailed test. Hence the <span class="math inline">\(Pr(&gt;|t|)\)</span> value tells us at what level of significance the null hypothesis can be rejected at, <span class="math inline">\(&lt;2e-16\)</span> or <span class="math inline">\(***\)</span> indicates that the threshold of significance is even smaller than 0.001.</li>
+<li><strong>R-squared</strong>: Lastly, the model output also provides some measures of goodness of fit, which will be important when comparing between different models, but does not have much interpretation value when just conducting hypothesis testing.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="multivariate-regressions" class="section level1">
+<h1><span class="header-section-number">4</span> Multivariate Regressions</h1>
+<p>Next, we move on to multivariate regressions, where we are comparing the effects of multiple independent variables on one dependent variable. Whereas before in the bivariate analysis we only had one <span class="math inline">\(x\)</span>, this time we can have multiple <span class="math inline">\(x\)</span>s.</p>
+<p><span class="math display">\[Y = \alpha + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3 + \beta_4 X_4\]</span></p>
+<p>This time we include two more independent variables, on top of <code>pid_x</code>: 1. Pre family income - <code>inc_incgroup_pre</code> 2. Religious practices - <code>relig_import</code></p>
+<pre class="r"><code>summary(anes2012$inc_incgroup_pre)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   -9.00    4.00   12.00   11.86   20.00   28.00</code></pre>
+<pre class="r"><code>get_labels(anes2012$inc_incgroup_pre) #you will need the package sjlabelled to use the get_labels() function</code></pre>
+<pre><code>##  [1] &quot;-9. Refused&quot;                                                                 
+##  [2] &quot;-8. Don&#39;t know&quot;                                                              
+##  [3] &quot;-2. Missing; IWR mistakenly entered &#39;2&#39; in place of DK code for total income&quot;
+##  [4] &quot;01. Under $5,000&quot;                                                            
+##  [5] &quot;02. $5,000-$9,999&quot;                                                           
+##  [6] &quot;03. $10,000-$12,499&quot;                                                         
+##  [7] &quot;04. $12,500-$14,999&quot;                                                         
+##  [8] &quot;05. $15,000-$17,499&quot;                                                         
+##  [9] &quot;06. $17,500-$19,999&quot;                                                         
+## [10] &quot;07. $20,000-$22,499&quot;                                                         
+## [11] &quot;08. $22,500-$24,999&quot;                                                         
+## [12] &quot;09. $25,000-$27,499&quot;                                                         
+## [13] &quot;10. $27,500-$29,999&quot;                                                         
+## [14] &quot;11. $30,000-$34,999&quot;                                                         
+## [15] &quot;12. $35,000-$39,999&quot;                                                         
+## [16] &quot;13. $40,000-$44,999&quot;                                                         
+## [17] &quot;14. $45,000-$49,999&quot;                                                         
+## [18] &quot;15. $50,000-$54,999&quot;                                                         
+## [19] &quot;16. $55,000-$59,999&quot;                                                         
+## [20] &quot;17. $60,000-$64,999&quot;                                                         
+## [21] &quot;18. $65,000-$69,999&quot;                                                         
+## [22] &quot;19. $70,000-$74,999&quot;                                                         
+## [23] &quot;20. $75,000-$79,999&quot;                                                         
+## [24] &quot;21. $80,000-$89,999&quot;                                                         
+## [25] &quot;22. $90,000-$99,999&quot;                                                         
+## [26] &quot;23. $100,000-$109,999&quot;                                                       
+## [27] &quot;24. $110,000-$124,999&quot;                                                       
+## [28] &quot;25. $125,000-$149,999&quot;                                                       
+## [29] &quot;26. $150,000-$174,999&quot;                                                       
+## [30] &quot;27. $175,000-$249,999&quot;                                                       
+## [31] &quot;28. $250,000 or more&quot;</code></pre>
+<pre class="r"><code>summary(anes2012$relig_import)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  -9.000   1.000   1.000   1.249   2.000   2.000</code></pre>
+<pre class="r"><code>get_labels(anes2012$relig_import)</code></pre>
+<pre><code>## [1] &quot;-9. Refused&quot;      &quot;-8. Don&#39;t know&quot;   &quot;1. Important&quot;    
+## [4] &quot;2. Not important&quot;</code></pre>
+<div id="recoding-both-variables" class="section level2">
+<h2><span class="header-section-number">4.1</span> Recoding both variables:</h2>
+<pre class="r"><code>anes2012$faminc &lt;- ifelse(anes2012$inc_incgroup_pre &gt; 0 , anes2012$inc_incgroup_pre, NA)
+
+anes2012$relig_import_2 &lt;- ifelse(anes2012$relig_import &gt; 0, anes2012$relig_import, NA)</code></pre>
+<pre class="r"><code>fit2 &lt;- lm(ft_military_2 ~ pid_x + faminc + relig_import_2, data = anes2012)
+summary(fit2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = ft_military_2 ~ pid_x + faminc + relig_import_2, 
+##     data = anes2012)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -86.968 -11.832   4.488  15.724  27.934 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    85.25602    1.09710  77.710   &lt;2e-16 ***
+## pid_x           1.25808    0.13943   9.023   &lt;2e-16 ***
+## faminc         -0.01035    0.03657  -0.283    0.777    
+## relig_import_2 -7.08419    0.63435 -11.168   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 20.57 on 4974 degrees of freedom
+##   (936 observations deleted due to missingness)
+## Multiple R-squared:  0.04408,    Adjusted R-squared:  0.0435 
+## F-statistic: 76.45 on 3 and 4974 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Here we can make three inferences about the results:</p>
+<ol style="list-style-type: decimal">
+<li>As political ideology increases one unit towards more ‘republican’ levels, the respondents’ feeling towards the military increases by 1.26 units on average, and this effect is statistically significant at the 0.001 level.</li>
+</ol>
+<ul>
+<li>Also, the inclusion of more variables has not changed the effect of political ideology on feelings towards the military</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>As respondents’ religious practices shift from important to not important, their feeling towards the military decreases by 7.08 units on average, and this is also significant at the 0.001 level.</li>
+<li>Family income has no statistically significant effect on one’s feelings towards the military.</li>
+</ol>
+</div>
+<div id="putting-it-together" class="section level2">
+<h2><span class="header-section-number">4.2</span> Putting it together</h2>
+<p>How can we use these regression predictions to develop a better understanding of the possible effects of political ideology on feelings towards the military? How meaningful are the effects of <code>+1.26</code> units from political ideology, or <code>-7.08</code> from (lack of) religious practices?</p>
+<div id="what-does-the-intercept-mean" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> What does the intercept mean?</h3>
+<p>Recall the results from model1:</p>
+<pre class="r"><code>summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = ft_military_2 ~ pid_x, data = anes2012)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -84.977 -11.089   5.207  17.615  22.800 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  75.9044     0.5478 138.562   &lt;2e-16 ***
+## pid_x         1.2961     0.1333   9.724   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 20.82 on 5457 degrees of freedom
+##   (455 observations deleted due to missingness)
+## Multiple R-squared:  0.01703,    Adjusted R-squared:  0.01685 
+## F-statistic: 94.56 on 1 and 5457 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The intercept (often labeled the constant, or <span class="math inline">\(\alpha\)</span>) is the expected mean value of Y when all X=0. - Hence, in the model above, the intercept (75.904) indicates the baseline mean level of respondent’s feelings towards the military, if <code>pid_x</code> is held at the lowest level (0).</p>
+<p>The estimate, (often labeled the coeffcient, or <span class="math inline">\(\beta\)</span>) is the expected impact of X on Y for every additional unit of X - Hence, in the model above, the coefficient (1.2961) indicates the upward slope or additional increase in Y, for every unit increase in X</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(anes2012, aes(x = pid_x, y = ft_military_2)) + geom_point(alpha = 0.005) + 
+    geom_smooth(method=&#39;lm&#39;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 455 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 455 rows containing missing values (geom_point).</code></pre>
+<p><img src="lab4_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="coefficient-comparison" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Coefficient Comparison</h3>
+<p>Can we compare between different kinds of coefficients? - Are the results from <code>pid_x</code> and <code>relig_import_2</code> equally significant or meaningful in <strong>fit2</strong>? - In the model above, the estimated coefficient for pid_x is 1.25808, which seems sizeably smaller than that of relig_import_2 which is -7.08419. - However, this doesn’t take into account the range and values of pid_x, which ranges from 1 to 7. Compared to relig_import_2, which is only 1 - 2. - So this means that between a respondent who is strongly democrat (pid_x = 1), and a respondent who is strongly republican (pid_x = 7), the difference in predicted level of feelings towards the military is 8.80656, which arguably is greater than the impact of relig_import_2</p>
+</div>
+<div id="model-goodness-of-fit-and-r2" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> Model goodness of fit and <span class="math inline">\(R^2\)</span></h3>
+<ul>
+<li>You might remember this from slide 57 in Week 2, Pt 2 of the lecture slides.</li>
+<li><span class="math inline">\(R^2\)</span> is the proportion of the variance in the dependent variable that our model explains.
+<ul>
+<li>It ranges from 0-1.</li>
+<li>The closer our R2 is to 1, the more of the variation our model explains.</li>
+<li>The closer our R2 is to 1, the better our model is at predicting the dependent variable.</li>
+</ul></li>
+</ul>
+<p>From the <code>summary()</code> function, when used on <code>lm()</code>, we get some information on the goodness of fit of the model as well. In fit2 above, for example, the <span class="math inline">\(R^2\)</span> value is 0.0435, which indicates that though the variables we have identified may be significant, they may not be key explanations for the dependent variable of interest.</p>
+<p>Talking about the intercept, Rsquare, and confidence intervals</p>
+</div>
+</div>
+</div>
+<div id="making-tables" class="section level1">
+<h1><span class="header-section-number">5</span> Making Tables</h1>
+<p>Lastly, we are going to go over how to present the results you get from a regression, into the kinds of tables you often see in papers. We use a package called <code>stargazer</code> to present the results.</p>
+<pre class="r"><code>library(stargazer)
+stargazer(model1, fit2, type = &quot;html&quot;, title=&quot;Effects of Political Ideology on Feelings Towards the Military&quot;, digits=1, out=&quot;table1.htm&quot;, style = &quot;ajps&quot;)</code></pre>
+<pre><code>## 
+## &lt;table style=&quot;text-align:center&quot;&gt;&lt;caption&gt;&lt;strong&gt;Effects of Political Ideology on Feelings Towards the Military&lt;/strong&gt;&lt;/caption&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td colspan=&quot;2&quot;&gt;&lt;strong&gt;ft_military_2&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Model 1&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Model 2&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;pid_x&lt;/td&gt;&lt;td&gt;1.3&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;1.3&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(0.1)&lt;/td&gt;&lt;td&gt;(0.1)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;faminc&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-0.01&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(0.04)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;relig_import_2&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;-7.1&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;(0.6)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Constant&lt;/td&gt;&lt;td&gt;75.9&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;td&gt;85.3&lt;sup&gt;***&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;&lt;/td&gt;&lt;td&gt;(0.5)&lt;/td&gt;&lt;td&gt;(1.1)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;N&lt;/td&gt;&lt;td&gt;5459&lt;/td&gt;&lt;td&gt;4978&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;R-squared&lt;/td&gt;&lt;td&gt;0.02&lt;/td&gt;&lt;td&gt;0.04&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Adj. R-squared&lt;/td&gt;&lt;td&gt;0.02&lt;/td&gt;&lt;td&gt;0.04&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;Residual Std. Error&lt;/td&gt;&lt;td&gt;20.8 (df = 5457)&lt;/td&gt;&lt;td&gt;20.6 (df = 4974)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td style=&quot;text-align:left&quot;&gt;F Statistic&lt;/td&gt;&lt;td&gt;94.6&lt;sup&gt;***&lt;/sup&gt; (df = 1; 5457)&lt;/td&gt;&lt;td&gt;76.5&lt;sup&gt;***&lt;/sup&gt; (df = 3; 4974)&lt;/td&gt;&lt;/tr&gt;
+## &lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;border-bottom: 1px solid black&quot;&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;text-align:left&quot;&gt;&lt;sup&gt;***&lt;/sup&gt;p &lt; .01; &lt;sup&gt;**&lt;/sup&gt;p &lt; .05; &lt;sup&gt;*&lt;/sup&gt;p &lt; .1&lt;/td&gt;&lt;/tr&gt;
+## &lt;/table&gt;</code></pre>
+</div>
+<div id="glossary" class="section level1">
+<h1><span class="header-section-number">6</span> Glossary</h1>
+<p>The functions we’ve gone over today are:</p>
+<ol style="list-style-type: decimal">
+<li><code>chisq.test()</code></li>
+<li><code>t.test()</code></li>
+<li><code>lm()</code> + <code>summary()</code></li>
+<li><code>stargazer()</code></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
