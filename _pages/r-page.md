@@ -7,7 +7,7 @@ title: "R Main Page"
 
 # Intro to R, from RStudio to OLS. 
 
-The following is an introductory course to R, based on the probability and regression class taught at the Ralph Bunche Summer Institute in 2021, 2022, and 2023. The course is designed to complement a lecture series on hypothesis generatoin, empirical measurement, statistical inference, and regressions. The outline is as follows:
+The following is an introductory course to R, based on the probability and regression class taught at the Ralph Bunche Summer Institute in 2021, 2022, and 2023. The course is designed to complement a lecture series on hypothesis generation, empirical measurement, statistical inference, and regressions. The outline is as follows:
 
 1. What is Data and Where to Find it?
 2. [Intro to R and RStudio](lab2.html)

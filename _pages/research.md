@@ -12,13 +12,22 @@ My research focuses on authoritarian politics, aiming to understand the conditio
 
 My book project, focuses on the strategies dictators employ to accumulate personal power. I develop a theoretical framework of leaders' strategy space that draws from qualitative cases across the Middle East and Southeast Asia. To support this framework, I model these strategies as states using a Markov chain model to assess how dictators' strategies evolve in response to the strength of elite constraints. 
 
-### Working Papers (Available upon request)
+### Working Papers
 
-1. The costs of collective action: an experimental study of risk, punishment, and immunity [*Revise and Resubmit at Journal of Politics*]
-2. Youth Wings as a Source of Authoritarian Party
+- The costs of collective action: an experimental study of risk, punishment, and immunity [*Revise and Resubmit at Journal of Politics*]
+
+**Abstract:** *Despite the centrality of collective action to the social sciences, we know relatively little as to how individuals process uncertain future costs of participation. We offer a formal model of collective action that incorporates punishment: with some probability, an individual might suffer a cost for having participated. Some individuals, however, are immune to punishment. Our model thus applies to group behavior in contexts from state repression to social sanction. We test our model’s predictions in a laboratory experiment, finding robust support for our hypotheses. Only those not immune to punishment reduce their participation as the likelihood and cost of punishment rises. The non-immune also participate less the more others in their group are immune, even though immune individuals do not always participate. Competing safety-in-numbers and free-riding incentives imply group size plays a more complex role in collective action than often assumed, affecting the immune and non-immune differently.* 
+
+- Youth Wings as a Source of Authoritarian Party
 Strength 
-3. Why Complete Voting Tallies Are Sometimes Not Published
 
+
+**Abstract:** *Accounts of authoritarian parties suggest that dictators use the party machine to mobilize mass support and obtain supermajoritarian electoral results to deter elite rivals from competing outside the party, though empirical evaluation of this function has been limited. I suggest an additional mechanism of mass mobilization by authoritarian parties: dictators strategically mobilize their supporters to increase the perceived costs of, and therefore the risks of, an organized military coup. I test this by identifying
+a party institution that authoritarian parties adopt explicitly for mass mobilization - youth wings. Using original data on youth wings in 200 authoritarian parties, I find support for the argument that youth wings reduce coup attempts through the threat of pro-regime mass mobilization events. I find little support for the alternate explanation that youth wings could be used to co-opt military officers and reduce their incentives to organize coups.*
+
+- Why Complete Voting Tallies Are Sometimes Not Published
+
+**Abstract:** *I argue that while election monitoring in its infancy may have had signalling benefits that incentivised partially democratic governments to signal democratic credibility by publishing complete vote tallies, the growing ubiquity of election monitoring may actually negate these positive benefits. As the certainty of election monitoring increases with the diffusion of the norm, pseudo-democrats may no longer find it strategic to take the extra step of publishing complete vote tallies to signal ’democracy’.*
 
 
 ### Works in Progress
