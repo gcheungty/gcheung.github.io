@@ -14,7 +14,8 @@ My book project, focuses on the strategies dictators employ to accumulate person
 
 ### Working Papers
 
-- The costs of collective action: an experimental study of risk, punishment, and immunity [*Revise and Resubmit at Journal of Politics*]
+- The costs of collective action: an experimental study of risk, punishment, and immunity
+with [David Siegel](https://sites.duke.edu/daveasiegel/) *Revise and Resubmit at Journal of Politics*
 
 **Abstract:** *Despite the centrality of collective action to the social sciences, we know relatively little as to how individuals process uncertain future costs of participation. We offer a formal model of collective action that incorporates punishment: with some probability, an individual might suffer a cost for having participated. Some individuals, however, are immune to punishment. Our model thus applies to group behavior in contexts from state repression to social sanction. We test our model’s predictions in a laboratory experiment, finding robust support for our hypotheses. Only those not immune to punishment reduce their participation as the likelihood and cost of punishment rises. The non-immune also participate less the more others in their group are immune, even though immune individuals do not always participate. Competing safety-in-numbers and free-riding incentives imply group size plays a more complex role in collective action than often assumed, affecting the immune and non-immune differently.* 
 
