@@ -10,11 +10,10 @@ author_profile: true
 
 ### About me
 
-I'm a PhD candidate in Political Science at Duke University, graduating in 2024.
+I am a Ph.D. candidate in Political Science at Duke University, graduating in 2024. My research interests can broadly be categorized as being in comparative authoritarian politics, democratic backsliding, and strategic political behavior. In exploring these themes, I employ a variety of research methodologies, including the creation of original cross-national datasets, archival work in Arabic, organizing laboratory experiments, and using computational simulations. Additionally, I have regional interests in the Middle East and Southeast Asia.
 
-I study dictators, the strategies and tactics that authoritarian leaders use to consolidate power. I tackle these questions using a mix of qualitative archival work to build theories, and empirical data covering over 300 dictators. 
+My dissertation project is on dictators, the strategies and tactics that authoritarian leaders use to consolidate power. I tackle these questions using a mix of qualitative archival work to build theories, and empirical data covering over 300 dictators. 
 
-My research interests can broadly be categorized as being in comparative authoritarian politics, democratic backsliding, and strategic political behaviour. 
+Previously, I completed my undergraduate degree in Political Science with a minor in Middle Eastern Studies at the University of California, Berkeley. My work has been published in the Journal of Politics.
 
-
-You can hire me! Check out my [CV](https://www.gloria.cheung.com/cv/)
+You can hire me! Check out my [CV](https://www.gloriacheung.com/cv/)
